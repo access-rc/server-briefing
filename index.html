@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Player Guide</title>
+    <!-- Fonts to match the bold, clean style -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #000000;
+            --nav-blue: #377dff;
+            --ip-orange: #f5a623;
+            --text-main: #f0edf5;
+            --text-muted: #b8b0c9;
+            --card-bg: #111111;
+            --border: #222222;
+            --accent-secondary: #00d26a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Nunito', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .nav-links a, .ip-btn {
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* --- HEADER NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 90px;
+            background-color: var(--bg-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 800;
+            padding: 12px 20px;
+            border-radius: 8px;
+            letter-spacing: 1px;
+            transition: background-color 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.active {
+            background-color: var(--nav-blue);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .ip-btn {
+            background-color: var(--ip-orange);
+            color: #000000;
+            border: none;
+            padding: 14px 24px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            border-radius: 8px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: transform 0.2s, background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ip-btn:hover {
+            transform: scale(1.05);
+            background-color: #ffb745;
+        }
+
+        /* --- HERO SECTION WITH VIGNETTE --- */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 90vh; /* Takes up most of the screen like the image */
+            margin-top: 90px; /* Offset for header */
+            /* Pointing to a local image file in the same folder as this HTML file */
+            background: url('my-server-screenshot.jpg') center/cover no-repeat;
+        }
+
+        /* Dark Vignette effect blending into the black background */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            /* Inset shadow creates the dark blurred borders */
+            box-shadow: inset 0 0 150px 100px var(--bg-dark), inset 0 0 50px 20px var(--bg-dark);
+            pointer-events: none;
+        }
+
+        /* Top and bottom gradient fades to ensure smooth transition to solid black */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, var(--bg-dark) 0%, transparent 20%, transparent 80%, var(--bg-dark) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+
+        /* --- CONTENT SECTION --- */
+        main {
+            max-width: 1000px;
+            margin: -100px auto 100px auto; /* Pulls content slightly up into the hero */
+            position: relative;
+            z-index: 2; /* Sits above the vignette */
+            padding: 0 20px;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        h2 {
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            color: var(--ip-orange);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        strong {
+            color: white;
+            font-weight: 800;
+        }
+
+        ul.feature-list {
+            list-style: none;
+            margin-left: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        ul.feature-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--text-muted);
+        }
+
+        ul.feature-list li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--nav-blue);
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            padding: 1.2rem;
+            text-align: left;
+        }
+
+        th {
+            color: var(--ip-orange);
+            font-size: 1rem;
+            padding-bottom: 0.5rem;
+        }
+
+        td {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        tr td:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            font-weight: 800;
+            color: white;
+        }
+
+        tr td:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        code {
+            background-color: #000;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            color: var(--accent-secondary);
+            font-family: monospace;
+            font-size: 1rem;
+            font-weight: bold;
+            border: 1px solid #333;
+        }
+
+        .note {
+            background-color: rgba(55, 125, 255, 0.1);
+            border-left: 4px solid var(--nav-blue);
+            padding: 1.2rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+            color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation Bar -->
+    <header>
+        <div class="nav-left">
+            <nav class="nav-links">
+                <a href="#welcome" class="active">HOME</a>
+                <a href="#blog">BLOG</a>
+                <a href="#guides">GUIDES</a>
+                <a href="#store">STORE</a>
+            </nav>
+        </div>
+        <div class="nav-right">
+            <!-- Click to copy IP functionality built in -->
+            <button class="ip-btn" onclick="copyIP()" id="ipButton">
+                MC.BLOCKSERVERS.NET
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Image Section with Vignette -->
+    <div class="hero"></div>
+
+    <!-- Main Guide Content -->
+    <main>
+        <section id="welcome">
+            <h2>Welcome to the Server</h2>
+            <p>Welcome to our official school Minecraft server! This guide will help you understand how to navigate the world, chat with your friends, and earn powerful perks just by playing.</p>
+            <p>Our server uses a unique, custom-built system designed to make your survival experience as fun and rewarding as possible. Make sure your account is secure by using our built-in login system when you first join!</p>
+        </section>
+
+        <section id="ranks">
+            <h2>Playtime Ranks & Perks</h2>
+            <p>You don't need to buy anything to get cool perks here. You automatically rank up and earn powerful buffs simply by spending active time exploring, building, and surviving on the server!</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank Name</th>
+                        <th>Time Required</th>
+                        <th>What You Get</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Player</td>
+                        <td>0 hours</td>
+                        <td>Welcome! You have all the standard survival permissions.</td>
+                    </tr>
+                    <tr>
+                        <td>Pro</td>
+                        <td>5 hours</td>
+                        <td>Your food goes further! You get a permanent 20% boost to your saturation effectiveness.</td>
+                    </tr>
+                    <tr>
+                        <td>MVP</td>
+                        <td>12 hours</td>
+                        <td>Time to mine! You are granted a permanent Haste effect.</td>
+                    </tr>
+                    <tr>
+                        <td>Elite</td>
+                        <td>24 hours</td>
+                        <td>God-tier reach. You get a +2 block bonus to your entity and block interaction range!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="afk">
+            <h2>The AFK System</h2>
+            <p>To keep our playtime ranks fair, we have an active AFK (Away From Keyboard) detection system. We want to reward players who are actually playing the game!</p>
+            
+            <div class="note">
+                <strong>How it works:</strong> If you stand completely still and do not move your character or your head (camera angle) for <strong>2 minutes</strong>, you will be marked as AFK. 
+            </div>
+            
+            <p>While you are marked as AFK, your playtime counter is paused. Don't worry, once you start moving around again, your timer will immediately resume!</p>
+        </section>
+
+        <section id="chat">
+            <h2>How to Chat</h2>
+            <p>Because the world is so large and the server can get busy, we use a custom chat system to keep things from getting cluttered.</p>
+            
+            <h3>Regional Chat (Default)</h3>
+            <ul class="feature-list">
+                <li>The world is divided into 8 equal geographical sections.</li>
+                <li>When you type normally in chat, <strong>only players in your section</strong> will be able to see your messages. It's perfect for talking to your neighbors!</li>
+            </ul>
+
+            <h3>Global Shout</h3>
+            <ul class="feature-list">
+                <li>Want to talk to the whole server? Use the command <code>/shout &lt;message&gt;</code> or <code>/s &lt;message&gt;</code>.</li>
+                <li>This will put a shiny <code>[SHOUT]</code> tag in front of your message and broadcast it to everyone online.</li>
+                <li><strong>Note:</strong> There is a cooldown on how often you can shout to prevent spamming, which decreases as you rank up.</li>
+            </ul>
+        </section>
+
+        <section id="staff">
+            <h2>Our Staff Team</h2>
+            <p>We have a dedicated team of students and admins keeping the server safe, fair, and fun for everyone. If you ever need help, look for someone with one of these tags!</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Staff Role</th>
+                        <th>What They Do</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Guide</td>
+                        <td>Our friendly helpers! They are here to answer questions and help new players get settled in.</td>
+                    </tr>
+                    <tr>
+                        <td>Trusted</td>
+                        <td>Assistive trusted friends of managers.</td>
+                    </tr>
+                    <tr>
+                        <td>Mod / Sr. Mod</td>
+                        <td>The server peacekeepers. They handle rule-breakers, resolve conflicts, and can restore lost items.</td>
+                    </tr>
+                    <tr>
+                        <td>Team / Admin</td>
+                        <td>The server managers and developers. They work behind the scenes to keep the server running!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Script to make the IP button copy to clipboard -->
+    <script>
+        function copyIP() {
+            const ip = "MC.BLOCKSERVERS.NET";
+            navigator.clipboard.writeText(ip).then(() => {
+                const btn = document.getElementById("ipButton");
+                btn.innerText = "IP COPIED!";
+                setTimeout(() => {
+                    btn.innerText = "MC.BLOCKSERVERS.NET";
+                }, 3000);
+            });
+        }
+    </script>
+</body>
+</html>
