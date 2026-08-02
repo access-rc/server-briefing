@@ -16,6 +16,7 @@
             --card-bg: #111111;
             --border: #222222;
             --accent-secondary: #00d26a;
+            --accent-danger: #ff4747;
         }
 
         * {
@@ -114,7 +115,7 @@
             height: 90vh;
             margin-top: 90px; 
             /* Updated to point to the 'images' subfolder! Change 'my-server-screenshot.jpg' to your exact file name. */
-            background: url('my-server-screenshot.jpg') center/cover no-repeat;
+            background: url('images/my-server-screenshot.jpg') center/cover no-repeat;
         }
 
         /* Dark Vignette effect blending into the black background */
@@ -135,7 +136,6 @@
             z-index: 1;
             pointer-events: none;
         }
-
 
         /* --- CONTENT SECTION --- */
         main {
@@ -189,10 +189,11 @@
         }
 
         ul.feature-list li {
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             padding-left: 2rem;
             position: relative;
             color: var(--text-muted);
+            font-size: 1.05rem;
         }
 
         ul.feature-list li::before {
@@ -258,6 +259,15 @@
             border-radius: 0 8px 8px 0;
             color: var(--text-main);
         }
+
+        .alert {
+            background-color: rgba(255, 71, 71, 0.1);
+            border-left: 4px solid var(--accent-danger);
+            padding: 1.2rem 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+            color: var(--text-main);
+        }
     </style>
 </head>
 <body>
@@ -267,6 +277,7 @@
         <div class="nav-left">
             <nav class="nav-links">
                 <a href="#welcome" class="active">HOME</a>
+                <a href="#rules">RULES</a>
             </nav>
         </div>
         <div class="nav-right">
@@ -286,6 +297,24 @@
             <h2>Welcome to the Server</h2>
             <p>Welcome to our official school Minecraft server! This guide will help you understand how to navigate the world, chat with your friends, and earn powerful perks just by playing.</p>
             <p>Our server uses a unique, custom-built system designed to make your survival experience as fun and rewarding as possible. Make sure your account is secure by using our built-in login system when you first join!</p>
+        </section>
+
+        <!-- NEW RULES SECTION -->
+        <section id="rules">
+            <h2>Server Rules</h2>
+            <p>To keep the server fair and fun for everyone, please follow these guidelines. If you run into any issues or see someone breaking the rules, contact a Moderator or Admin.</p>
+            
+            <ul class="feature-list">
+                <li><strong>Eligibility:</strong> You must be a current student at our school to play on this server.</li>
+                <li><strong>Teams & Factions:</strong> You can play Solo, as a Duo, or form a Team. <strong>The maximum team size is 3 players.</strong> Caught teaming with more than 3 people is a bannable offense. You are allowed to change teams or betray your current one, but you cannot join a team that already has 3 players.</li>
+                <li><strong>Griefing vs. Looting:</strong> Griefing (destroying bases, builds, or the landscape) is completely prohibited. However, looting (stealing unprotected items) is allowed. Hide your chests!</li>
+                <li><strong>PvP Rules:</strong> You cannot kill a player who has no loot/gear without a valid reason. A valid reason would be if they are actively trying to grief or loot you. Give new players a chance!</li>
+                <li><strong>AFK Farming:</strong> Standard AFKing is not allowed because it artificially boosts your playtime rank. If you need to set up an AFK farm, you must use Ender Pearl Stasis Chambers.</li>
+            </ul>
+
+            <div class="alert">
+                <strong>Important:</strong> What happens in-game, stays in-game! No in-game activity should ever lead to real-life hostility. This is a video game meant for fun.
+            </div>
         </section>
 
         <section id="ranks">
